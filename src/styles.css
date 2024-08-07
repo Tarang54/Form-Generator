@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+  }
+  
+  .left-panel {
+    width: 50%;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+  }
+  
+  .right-panel {
+    width: 50%;
+    padding: 20px;
+  }
+  
+  .component-wrapper {
+    margin-bottom: 10px;
+  }
+  
+  button {
+    margin-left: 10px;
+  }
+  
