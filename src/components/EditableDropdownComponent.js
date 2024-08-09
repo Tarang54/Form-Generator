@@ -1,47 +1,31 @@
 import React, { useState } from 'react';
+import FormPopup from './FormPopup';
 
 const EditableDropdownComponent = ({ addComponent }) => {
-  const [title, setTitle] = useState("Dropdown");
-  const [options, setOptions] = useState(["Option 1"]);
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleAddOption = () => {
-    setOptions([...options, `Option ${options.length + 1}`]);
+  const handleAddClick = () => {
+    setShowPopup(true);
   };
 
-  const handleOptionChange = (index, value) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
 
-  const handleAdd = () => {
-    addComponent({ type: "Dropdown", title, options });
-    setTitle("Dropdown");
-    setOptions(["Option 1"]);
+  const handleSavePopup = (config) => {
+    addComponent({ ...config, type: 'Dropdown' });
   };
 
   return (
-    <div className="component-wrapper flex items-center flex-wrap gap-[15px]">
-      <input
-        className='py-[10px] px-[10px] rounded-[10px] text-[16px]'
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onFocus={(e) => e.target.select()}
-      />
-      <div className='flex flex-col gap-[15px]'>
-        {options.map((option, index) => (
-          <input
-            className='py-[10px] px-[10px] rounded-[10px] text-[16px]'
-            key={index}
-            type="text"
-            value={option}
-            onChange={(e) => handleOptionChange(index, e.target.value)}
-          />
-      ))}
-      </div>
-      <button className='rounded-[28px] bg-[#878787] text-[#fff] text-[16px] py-[10px] px-[20px] hover:bg-[#0a0a0a]' onClick={handleAddOption}>Add Option</button>
-      <button className='rounded-[28px] bg-[#878787] text-[#fff] text-[16px] py-[10px] px-[20px] hover:bg-[#0a0a0a]' onClick={handleAdd}>Add</button>
+    <div>
+      <button className='font-semibold border-2 w-[300px] border-[#363062] p-[10px] text-[#363062] hover:text-[#E9D5CA] hover:bg-[#827397] rounded-lg m-auto ' onClick={handleAddClick}>Add Dropdown</button>
+      {showPopup && (
+        <FormPopup
+          onClose={handleClosePopup}
+          onSave={handleSavePopup}
+          componentType="Dropdown"
+        />
+      )}
     </div>
   );
 };
