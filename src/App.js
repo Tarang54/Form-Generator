@@ -30,101 +30,102 @@ const App = () => {
             case "Text":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
-                    <input class="custom-input" type="text" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
+                    <input id="${component.title}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" class="custom-input" type="text" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
                 </div>`;
             case "Button":
                 return `<div class="button-container" key="${index}">
-                    <button class="custom-button"  ${component.required ? 'required' : ''} >${component.title}</button>
+                    <button id="${component.title}" class="custom-button"  ${component.required ? 'required' : ''} >${component.title}</button>
                 </div>`;
             case "Submit":
                 return `<div class="button-container" key="${index}">
-                    <input class="custom-submit" type="submit"  ${component.required ? 'required' : ''}  value="${component.title}" />
+                    <input id="${component.title}" class="custom-submit" type="submit"  ${component.required ? 'required' : ''}  value="${component.title}" />
                 </div>`;
             case "Date":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
-                    <input class="custom-input" type="date" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
+                    <input id="${component.title}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" class="custom-input" type="date" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
                 </div>`;
             case "Email":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
-                    <input class="custom-input" type="email" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
+                    <input id="${component.title}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" class="custom-input" type="email" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
                 </div>`;
             case "Number":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
-                    <input class="custom-input" type="number" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
+                    <input id="${component.title}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" class="custom-input" type="number" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
                 </div>`;
             case "Password":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
-                    <input class="custom-input" type="password" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
+                    <input id="${component.title}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" class="custom-input" type="password" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''} />
                 </div>`;
             case "Radio":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
                     ${component.options.map((option, idx) => `<div class="radio-container">
-                        <input key="${idx}" type="radio" name="${component.title}" value="${option}" class="custom-radio" ${component.required ? 'required' : ''} />
+                        <input id="${component.title}-${idx}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" key="${idx}" type="radio" name="${component.title}" value="${option}" class="custom-radio" ${component.required ? 'required' : ''} />
                         <label class="radio-label">${option}</label>
                     </div>`).join('')}
                 </div>`;
             case "TextArea":
                 return `<div class="simple-container" key="${index}">
                     <label class="custom-label">${component.title}</label>
-                    <textarea class="custom-input height-120" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''}></textarea>
+                    <textarea id="${component.title}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" class="custom-input height-120" placeholder="${component.placeholder || ''}" ${component.required ? 'required' : ''}></textarea>
                 </div>`;
-            case "Dropdown":
-                return `<div class="simple-container full-width" key="${index}">
-                    <label class="custom-label">${component.title}</label>
-                    <div class="relative">
-                      <select 
+              case "Dropdown":
+                  return `<div class="simple-container full-width" key="${index}">
+                      <label class="custom-label">${component.title}</label>
+                      <div class="relative">
+                        <select 
+                          id="dropdown-${component.title}"
                           onchange="handleChange(event)" 
                           defaultValue=""
                           ${component.required ? 'required' : ''}
-                      >
+                        >
                           <option value="" disabled hidden>${component.placeholder || ''}</option>
-                          ${component.options.map((option, idx) => `<option key="${idx}" value="${option}">${option}</option>`).join('')}
-                      </select>
-                      <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          ${component.options.map((option, idx) => `<option key="${idx}" name="${component.title.toLowerCase().replace(/\s+/g, '')}" value="${option}">${option}</option>`).join('')}
+                        </select>
+                        <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9.70711 0.292893C10.0676 0.653377 10.0953 1.22061 9.7903 1.6129L9.70711 1.70711L5.70711 5.70711C5.34662 6.06759 4.77939 6.09532 4.3871 5.7903L4.29289 5.70711L0.292893 1.70711C-0.0976305 1.31658 -0.0976305 0.683418 0.292893 0.292893C0.653378 -0.0675907 1.22061 -0.0953203 1.6129 0.209705L1.70711 0.292893L5 3.585L8.29289 0.292893C8.65338 -0.0675907 9.22061 -0.0953203 9.6129 0.209705L9.70711 0.292893Z" fill="#7D8592"/>
-                      </svg>
-                    </div>
-                </div>`;
-            case "Checkbox":
-                return `<div class="simple-container" key="${index}">
-                  <label class="custom-label">${component.title}</label>
-                  ${component.options.map((option, idx) => `<div class="checkbox-container" key="${idx}">
-                    <input 
-                        type="checkbox" 
-                        id="checkbox-${component.title}-${idx}" 
-                        name="${component.title}" 
-                        value="${option}" 
-                        ${component.required ? 'required' : ''} 
-                        class="hide" 
-                    />
-                    <label for="checkbox-${component.title}-${idx}" class="checkbox-label">
-                        <svg class="unchecked-svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" fill="white"/>
-                            <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" stroke="#D8E0F0"/>
                         </svg>
-                        <svg class="checked-svg hide" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" fill="#00ADE7"/>
-                            <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" stroke="#00ADE7"/>
-                            <path d="M11.6666 7L7.99992 10.6667L6.33325 9" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="checkbox-span">${option}</span>
-                    </label>
-                  </div>`).join('')}
-                </div>`;
+                      </div>
+                  </div>`;
+              case "Checkbox":
+                  return `<div class="simple-container" key="${index}">
+                    <label class="custom-label">${component.title}</label>
+                    ${component.options.map((option, idx) => `<div class="checkbox-container" key="${idx}">
+                      <input 
+                          type="checkbox" 
+                          id="checkbox-${component.title}-${idx}" 
+                          name="${component.title.toLowerCase().replace(/\s+/g, '')}" 
+                          value="${option}" 
+                          ${component.required ? 'required' : ''} 
+                          class="hide" 
+                      />
+                      <label for="checkbox-${component.title}-${idx}" class="checkbox-label">
+                          <svg class="unchecked-svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" fill="white"/>
+                              <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" stroke="#D8E0F0"/>
+                          </svg>
+                          <svg class="checked-svg hide" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" fill="#00ADE7"/>
+                              <rect x="0.5" y="0.5" width="17" height="17" rx="4.5" stroke="#00ADE7"/>
+                              <path d="M11.6666 7L7.99992 10.6667L6.33325 9" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          <span class="checkbox-span">${option}</span>
+                      </label>
+                    </div>`).join('')}
+                  </div>`;
             case 'FormHeading':
                 return `<div key="${index}">
-                    <h2 class="form-heading">${component.title}</h2>
+                    <h2 id="${component.title}" class="form-heading">${component.title}</h2>
                 </div>`;
             default:
                 return '';
         }
     }).join('\n');
-  
+
     const completeCode = `
     <!DOCTYPE html>
     <html lang="en">
@@ -171,11 +172,11 @@ const App = () => {
                 line-height: 21px;
             }
             .container {
-                margin: auto;
-                background-color: white;
-                padding: 40px;
-                border-radius: 16px;
-                width: 100%;
+              margin: auto;
+              background-color: white;
+              padding: 40px;
+              border-radius: 16px;
+              width: 100%;
             }
             .hide{
               display: none;
@@ -271,7 +272,7 @@ const App = () => {
                 font-weight: normal;
             }
             select:focus {
-              color: black;
+              border-color: #00ADE7;
               font-weight: bold;
             }
             .full-width{
@@ -337,27 +338,70 @@ const App = () => {
               text-align: center;
             }
             .button-container {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                margin: 12px auto;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              margin: 12px auto;
             }
             .form-heading {
-                font-size: 24px;
-                font-weight: 600;
-                color: #0A1629;
-                margin-top: 16px;
-                margin-bottom: 24px;
+              font-size: 24px;
+              font-weight: 600;
+              color: #0A1629;
+              margin-top: 16px;
+              margin-bottom: 24px;
+            }
+            .thank-you-message {
+              text-align: center;
+            }
+            .thank-you-message h1 {
+              font-size: 32px;
+              color: #363062;
+              margin-bottom: 10px;
+            }
+            .thank-you-message h3 {
+              font-size: 24px;
+              color: #7D8592;
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <form action="#">
+        <div id="container" class="container">
+            <form id="customForm" action="#">
                 ${formCode}
             </form>
         </div>
     </body>
+    <script>
+        document.getElementById("customForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = {
+                "data": []
+            };
+            formData.forEach((value, key) => {
+                data.data.push({
+                    "key": key,
+                    "value": value
+                });
+            });
+            try {
+                const response = await fetch('https://api.polariscampus.com/polaris/v1/leads/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    document.getElementById("container").innerHTML = "<div class='thank-you-message'><h1>Thank you!!</h1><h3>Form submitted</h3></div>";
+                } else {
+                    console.error('Submission failed', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
     </html>`;
   
     navigate('/code', { state: { formCode: completeCode } });
@@ -391,7 +435,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={
               <div className='w-full flex flex-col gap-4 items-center'>
-                <RightPanel addedComponents={addedComponents} />
+                <RightPanel addedComponents={addedComponents} setAddedComponents={setAddedComponents} />
                 <button className='font-semibold border-2 border-[#363062] p-[10px] text-[#363062] rounded-lg m-auto' onClick={generateCode}>Generate Code</button>
               </div>
             }/> 
