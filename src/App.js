@@ -38,7 +38,7 @@ const App = () => {
                 </div>`;
             case 'Submit':
                 return `<div class='button-container' key='${index}'>
-                    <input id='${component.title}' class='custom-submit' type='submit'  ${component.required ? 'required' : ''}  value='${component.title}' />
+                    <input id='submit' class='custom-submit' type='submit' ${component.required ? 'required' : ''}  value='${component.title}' />
                 </div>`;
             case 'Date':
                 return `<div class='simple-container' key='${index}'>
@@ -79,7 +79,7 @@ const App = () => {
                       <div class='relative'>
                         <select 
                           id='dropdown-${component.title}'
-                          onchange='handleChange((e) => e.target.classList.add('text-black', 'font-bold')) 
+                          onchange="(e) => e.target.classList.add('text-black', 'font-bold')"
                           defaultValue=''
                           ${component.required ? 'required' : ''}
                         >
@@ -226,7 +226,7 @@ const App = () => {
               font-weight: 600;
             }
             .text-black{
-              color: "#000000";
+              color: #000000;
             }
             .radio-label {
                 color: #0A1629;
@@ -328,6 +328,8 @@ const App = () => {
               border-radius: 16px;
               margin: 12px auto;
               width: 100%;
+              position: relative;
+              overflow: hidden;
             }
             .custom-button {
               margin-left: 0px;
@@ -383,7 +385,26 @@ const App = () => {
               line-height: 15.6px;
               color: #000000;
             }
-
+            .loader {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              border: 4px solid rgba(0, 0, 0, 0.1);
+              border-radius: 50%;
+              border-top: 4px solid white;
+              width: 24px;
+              height: 24px;
+              animation: spin 1s linear infinite;
+              display: none; 
+            }
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            .hide-text {
+              visibility: hidden;
+            }
         </style>
     </head>
     <body>
@@ -394,20 +415,28 @@ const App = () => {
         </div>
     </body>
     <script>
-        // function handleChange(selectevent) {
-        //   const selectElement = selectevent.target;
-        //   selectElement.classList.add('text-black', 'font-bold');
-        // }
         document.getElementById('customForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             const formData = new FormData(this);
 
-            const submitButton = document.getElementById('Submit');
-            submitButton.classList.add('loading');
+            const button = document.getElementById('submit');
+            const loader = document.createElement('div');
+            loader.className = 'loader';
+
+            button.appendChild(loader);
+            button.classList.add('hide-text');
+            loader.style.display = 'block';
 
             const data = {
                 'data': []
             };
+            const urlParams = new URLSearchParams(window.location.search);
+            const utmParams = {};
+            urlParams.forEach((value, key) => {
+                if (key.startsWith('utm_')) {
+                    utmParams[key] = value;
+                }
+            });
             formData.forEach((value, key) => {
               const existingItem = data.data.find(item => item.key === key);
               if (existingItem) {
@@ -419,6 +448,12 @@ const App = () => {
                   });
               }
             });
+            for (const [key, value] of Object.entries(utmParams)) {
+              data.data.push({
+                  'key': key,
+                  'value': value
+              });
+            }
             try {
                 const response = await fetch('https://alphaapi.testbook.com/api/v2/blog-sheet', {
                     method: 'POST',
@@ -441,7 +476,10 @@ const App = () => {
             } catch (error) {
                 console.error('Error:', error);
             } finally {
-                submitButton.classList.remove('loading');
+                loader.style.display = 'none';
+                button.classList.remove('hide-text');
+                button.removeChild(loader);
+
             }
         });
     </script>
