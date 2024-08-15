@@ -455,7 +455,7 @@ const App = () => {
               });
             }
             try {
-                const response = await fetch('https://alphaapi.testbook.com/api/v2/blog-sheet', {
+                const response = await fetch('', {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -479,7 +479,6 @@ const App = () => {
                 loader.style.display = 'none';
                 button.classList.remove('hide-text');
                 button.removeChild(loader);
-
             }
         });
     </script>
